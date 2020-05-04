@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/jpashop  #이거를 h2 console에 입력하면서 들어가면 확인가능
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+     ddl-auto: create    #실행 시점에 table을 드랍하고 다시 생성
+    properties:
+      hibernate:
+     #  show_sql: true
+       format_sql: true
+
+  thymeleaf:
+   prefix: classpath:/templates/
+   suffix: .html
+
+logging:
+  level:
+    org.hibernate.SQL: debug  #logger을 통해 하버네이트 실행 sql을 남김
+   # org.hibernate.type: trace #쿼리 파라메타 로그를 남겨줌

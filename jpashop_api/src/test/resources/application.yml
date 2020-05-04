@@ -1,0 +1,20 @@
+spring:
+ # datasource:
+ #   url: jdbc:h2:mem:test  #메모리로 db를 올림, 테스트용에서 사용 h2database 사이트에서 확인가능
+ #   username: sa
+ #   password:
+ #   driver-class-name: org.h2.Driver
+
+ # jpa:
+ #  hibernate:
+ #   ddl-auto: create-drop    #실행 시점에 table을 드랍하고 다시 생성후 다시 drop 해줌, main과 다름
+ #  properties:
+ #    hibernate:
+    #  show_sql: true
+ #     format_sql: true
+logging:
+  level:
+    org.hibernate.SQL: debug  #logger을 통해 하버네이트 실행 sql을 남김
+    org.hibernate.type: trace #쿼리 파라메타 로그를 남겨줌
+
+#테스트를 할때는 여기가 우선권을 가짐. 위의 설정이 다없어도 이 파일이 있으면 자동적으로 메모리로 db를 잡음

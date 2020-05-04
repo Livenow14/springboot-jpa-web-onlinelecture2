@@ -1,0 +1,39 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.9.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'livenow-jpa-web'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
+
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'	// 스프링부트가 미리 지원하지 않는거는 버전정보를 적어좀
+																				// 자원을 많이 쓰기 때문에 개발단계에서만 사용 권장. 
+
+	implementation 'org.springframework.boot:spring-boot-devtools' //개발할때 자동적으로 리로딩 해줌
+																	// restartedMain이라 뜨면 됨 html파일만 recompile 해주면 됨.
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
