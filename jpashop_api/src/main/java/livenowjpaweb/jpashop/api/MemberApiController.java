@@ -4,11 +4,14 @@ import livenowjpaweb.jpashop.domain.Member;
 import livenowjpaweb.jpashop.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,5 +72,36 @@ public class MemberApiController {
    static class UpdateMemberResponse {
         private Long id;
         private String name;
+    }
+
+    /**
+     * 조회
+     */
+/*    @GetMapping("/api/v1/members")          //이것의 안좋은점, 주문정보도 다 알려준다., 엔티티를 직접 반환하고 있음
+    public List<Member> membersV1(){
+        return memberService.findMembers();
+    }*/
+
+
+    @GetMapping("/api/v2/members")
+    public MemberResult memberV2(){
+        List<Member> findMembers = memberService.findMembers();
+        List<MemberDto> collect = findMembers.stream()
+                .map(m -> new MemberDto(m.getName()))
+                .collect(Collectors.toList());
+        return new MemberResult(collect.size(), collect );
+    }
+
+    @Data
+    @AllArgsConstructor
+    private class MemberResult<T> {
+        private int count;
+        private T data;
+    }
+    @Data
+    @AllArgsConstructor
+    static class MemberDto{
+        private String name;
+
     }
 }
