@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-     ddl-auto: none   #실행 시점에 table을 드랍하고 다시 생성
+     ddl-auto: create   #실행 시점에 table을 드랍하고 다시 생성 none으로 설정하면 안그렇게 됨
     properties:
       hibernate:
      #  show_sql: true
