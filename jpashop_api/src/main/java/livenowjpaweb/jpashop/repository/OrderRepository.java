@@ -28,19 +28,19 @@ public class OrderRepository {
 
 
 
-/*    public List<Order> findAll(OrderSearch orderSearch){
+  public List<Order> findAll(OrderSearch orderSearch){
         String jpql ="select  o from Order o join o.member m ";
 
-*//*        return em.createQuery("select o from Order o join o.member m " +
+        return em.createQuery("select o from Order o join o.member m " +
                 " where o.status = :status" +
                 " and m.name like :name", Order.class)
                 .setParameter("status", orderSearch.getOrderStatus())
                 .setParameter("name", orderSearch.getMemberName())
                 .setMaxResults(1000)        //재한을 걸어줌
-                .getResultList();*//*     //이건 정적 쿼리, 값을 알고있기 때문에
+                .getResultList();     //이건 정적 쿼리, 값을 알고있기 때문에
 
 
-    }*/
+    }
 
 
     /**
