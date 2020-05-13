@@ -129,6 +129,9 @@ public class OrderRepository {
                 " join fetch o.delivery d"+
                 " join fetch  o.orderItems oi"+
                 " join fetch oi.item i", Order.class)
-                .getResultList();
+                .setFirstResult(1)
+                .setMaxResults(100)                         //이게 먹지않음 양이 많을때 페이징을 하면안됨 패치 조인일때.
+                .getResultList();                           //메모리에서 페이징을 하는데(이는 매우 위험)
+                                                            // fetch조인에선 컬랙션 조회는 1개만 사용가능
     }
 }

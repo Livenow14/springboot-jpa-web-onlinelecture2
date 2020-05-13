@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * 1대다, 다대다일 때의 조회를 위한 api
+ */
 @RestController
 @RequiredArgsConstructor
 public class OrderApiController {
@@ -92,8 +96,9 @@ public class OrderApiController {
 
 
      /** V3. 엔티티를 조회해서 DTO로 변환(fetch join 사용O)
-     * - 페이징 시에는 N 부분을 포기해야함(대신에 batch fetch size? 옵션 주면 N -> 1 쿼리로 변경
-    가능)
+     * - 페이징 시에는 N 부분을 포기해야함(대신에 batch fetch size?
+      *
+      * 옵션 주면 N -> 1 쿼리로 변경가능)
      */
 
      @GetMapping("/api/v3/orders")
