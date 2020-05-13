@@ -123,7 +123,7 @@ public class OrderRepository {
      * 쿼리가 1번으로 줄어듬.
      * 하지만 단점이 크다. 페이징이 불가하다.
      */
-    public List<Order> finAllwithItem() {
+    public List<Order> finAllWithItem() {
         return em.createQuery(" select distinct  o from Order o"+
                 " join fetch o.member m" +
                 " join fetch o.delivery d"+
@@ -133,5 +133,15 @@ public class OrderRepository {
                 .setMaxResults(100)                         //이게 먹지않음 양이 많을때 페이징을 하면안됨 패치 조인일때.
                 .getResultList();                           //메모리에서 페이징을 하는데(이는 매우 위험)
                                                             // fetch조인에선 컬랙션 조회는 1개만 사용가능
+    }
+
+    public List<Order> finAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                "select o from Order o"+
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class
+        ).setFirstResult(offset)
+         .setMaxResults(limit)
+         .getResultList();
     }
 }
