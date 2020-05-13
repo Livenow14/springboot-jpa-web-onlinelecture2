@@ -118,5 +118,17 @@ public class OrderRepository {
         ).getResultList();
     }
 
-
+    /**
+     * distinct의 두개지 기능 db에 distinct를 날려주고, entity가 중복인 경우 걸러서 날려줌.
+     * 쿼리가 1번으로 줄어듬.
+     * 하지만 단점이 크다. 페이징이 불가하다.
+     */
+    public List<Order> finAllwithItem() {
+        return em.createQuery(" select distinct  o from Order o"+
+                " join fetch o.member m" +
+                " join fetch o.delivery d"+
+                " join fetch  o.orderItems oi"+
+                " join fetch oi.item i", Order.class)
+                .getResultList();
+    }
 }
