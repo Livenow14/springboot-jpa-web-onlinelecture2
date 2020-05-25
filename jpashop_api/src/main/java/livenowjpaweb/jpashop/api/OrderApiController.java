@@ -161,5 +161,32 @@ public class OrderApiController {
       * 인티티는 직접 캐싱하면 안된다.
     */
 
+    /**
+     * OSIV
+     * open session in view
+     * open EntityManager in view
+     *
+     * default가 true이다.
+     * - 모든 상태에서 영속성 컨텍스트 생존번위이다.
+     * 오랜시간동안 데이터베이스 커넥션 리소스를 사용하기 때문에, 실시간 트래픽이 중요한
+     * 애플리케이션에서는 커넥션이 모자랄 수 있어 장애로 이어진다.
+     *
+     *
+     * open-in-view: false
+     * - 이를 false로 하면 종료되는데, 트렌잭션을 종료할 때 영속성 컨텍스트를 닫고,
+     * 데이터베이스 커넥션도 반환한다. 따라서 커넥션 리소를 낭비하지 않는다.
+     * service와 repository에서만 영속성 컨텍스트생존 번위이다. 그렇기 때문에
+     * controller view, filter intercptor에서는 영속성 컨텍스트를 사용할 수 없다.(준영속 상태)
+     *
+     * 끈 상태로 복잡성을 관리하려면 Command와 Query를 분리한다.
+     *
+     * OderServkce: 핵심 비즈니스 로직
+     * OrderQueryService : 화면이나 API에 맞춘 서비스(주로 읽기 전용 트랜잭션 사용)
+     *
+     * 참고; 고객 서비스와 실시간 API는 OSIV를 끄고, ADMIN 처럼 커넥셔늘 많이 사용하지
+     * 않는 곳에서는 OSIV를 켠다.
+     * 자세한건 pdf파일 확인.
+     */
+
 
 }
