@@ -3,8 +3,8 @@ package livenowjpaweb.jpashop.service;
 
 import livenowjpaweb.jpashop.domain.Member;
 import livenowjpaweb.jpashop.repository.MemberRepository;
+import livenowjpaweb.jpashop.repository.MemberRepositoryOld;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,12 +47,12 @@ public class MemberService {           //읽기전용으로 해놓으면 성능�
     //한명 조회
   //  @Transactional(readOnly = true)      //읽기전용으로 해놓으면 성능이 좋아짐
     public Member findOne(Long memberId){
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
     }
 
     @Transactional
     public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
+        Member member = memberRepository.findById(id).get();
         member.setName(name);
     }
 }
