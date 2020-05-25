@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderApiController {
     private final OrderRepository orderRepository;
+/*    private final OrderQueryRepository orderQueryRepository;*/
 
     /**
      * V1. 엔티티 직접 노출
@@ -139,7 +140,19 @@ public class OrderApiController {
 
      /** V4. JPA에서 DTO로 바로 조회, 컬렉션 N 조회 (1 + N Query)
      *  - 페이징 가능
-     *  V5. JPA에서 DTO로 바로 조회, 컬렉션 1 조회 최적화 버전 (1 + 1 Query)
+     */
+/*
+     @GetMapping("/api/v4/orders")
+    public List<OrderQueryDto> ordersV4(){
+         return orderQueryRepository.findOrders();
+
+     }
+*/
+
+
+
+
+     /**  V5. JPA에서 DTO로 바로 조회, 컬렉션 1 조회 최적화 버전 (1 + 1 Query)
      * - 페이징 가능
      * V6. JPA에서 DTO로 바로 조회, 플랫 데이터(1Query) (1 Query)
      * - 페이징 불가능...

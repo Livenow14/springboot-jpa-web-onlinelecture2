@@ -19,7 +19,6 @@ repositories {
 }
 
 dependencies {
-
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'		//단순 예제용이기 때문에 라이브러리가 있나든 것만 알고있자. 이거를 사용하려면 Jsonignore를 사용하면된다.
 
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
