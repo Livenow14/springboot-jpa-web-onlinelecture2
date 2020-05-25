@@ -156,7 +156,9 @@ public class OrderApiController {
      * - 페이징 가능
      * V6. JPA에서 DTO로 바로 조회, 플랫 데이터(1Query) (1 Query)
      * - 페이징 불가능...
-     *
+     * 대부분의 어플리케이션에서는 fetch join으로 해결된다. 이를토해 해결되지 않으면
+      * cache를 이용하거나 하지 DTO로 직접조회를 사용하진 않는다.
+      * 인티티는 직접 캐싱하면 안된다.
     */
 
 
