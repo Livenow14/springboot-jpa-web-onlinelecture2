@@ -1,8 +1,18 @@
+//querydsl 추가
+buildscript {
+	dependencies {
+		classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.1.9.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 group = 'livenow-jpa-web'
 version = '0.0.1-SNAPSHOT'
@@ -19,7 +29,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'		//단순 예제용이기 때문에 라이브러리가 있나든 것만 알고있자. 이거를 사용하려면 Jsonignore를 사용하면된다.
+	//implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'		//단순 예제용이기 때문에 라이브러리가 있나든 것만 알고있자. 이거를 사용하려면 Jsonignore를 사용하면된다.
 
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
@@ -35,6 +45,36 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//querydsl 추가
+	implementation 'com.querydsl:querydsl-jpa'
+	//querydsl 추가
+	implementation 'com.querydsl:querydsl-apt'
+}
+
+//querydsl을 사용하기 위한 코드추가
+def querydslDir = 'src/main/generated'
+//def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	library = "com.querydsl:querydsl-apt"
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', querydslDir]
+		}
+	}
+}
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+	querydsl.extendsFrom compileClasspath
 }

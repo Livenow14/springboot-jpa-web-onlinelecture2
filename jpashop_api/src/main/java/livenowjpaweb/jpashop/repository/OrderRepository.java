@@ -1,6 +1,8 @@
 package livenowjpaweb.jpashop.repository;
 
-import livenowjpaweb.jpashop.domain.Member;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import livenowjpaweb.jpashop.domain.*;
 import livenowjpaweb.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,11 +14,21 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//Add on demand static
+import static livenowjpaweb.jpashop.domain.QMember.*;
+import static livenowjpaweb.jpashop.domain.QOrder.*;
+
 @Repository
-@RequiredArgsConstructor
+
 public class OrderRepository {
 
     private final EntityManager em;
+    private final JPAQueryFactory query;
+
+    public OrderRepository(EntityManager em) {
+        this.em = em;
+        this.query = new JPAQueryFactory(em);;
+    }
 
     public void save(Order order){
         em.persist(order); //영속성 컨텍스트에 order객체를 넣음 transaction이 커밋되는 시점에 디비에 반영됨
@@ -117,6 +129,48 @@ public class OrderRepository {
                         " join fetch o.delivery d", Order.class
         ).getResultList();
     }
+
+    /**
+     * queryDSL
+     */
+    public List<Order> findAllDsl(OrderSearch orderSearch){
+        return query.select(order)
+                .from(order)
+                .join(order.member, member)
+                .where(statusEq(orderSearch.getOrderStatus()), nameLike(orderSearch.getMemberName()))
+                .limit(1000)
+                .fetch();
+
+    }
+
+    /**
+     * 자바 코드이기 때문에 재사용성이 엄청나다.
+     */
+    public List<Order> finaExam(OrderSearch orderSearch){
+        return query
+                .select(order)
+                .from(order)
+                .where(statusEq(orderSearch.getOrderStatus()))
+                .fetch();
+    }
+
+    private BooleanExpression nameLike(String memberName) {
+
+        if(!StringUtils.hasText(memberName)){
+            return null;
+        }
+
+        return  member.name.like(memberName);
+    }
+
+    //동적쿼리
+    private BooleanExpression statusEq(OrderStatus orderStatus){
+        if(orderStatus == null){
+            return null;
+        }
+        return order.status.eq(orderStatus);
+    }
+
 
     /**
      * distinct의 두개지 기능 db에 distinct를 날려주고, entity가 중복인 경우 걸러서 날려줌.
